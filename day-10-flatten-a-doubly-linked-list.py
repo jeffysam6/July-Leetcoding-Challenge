@@ -11,41 +11,34 @@ class Node:
 class Solution:
     def flatten(self, head: 'Node') -> 'Node':
         
+        stack = [None]
         
-        if(head is None):
-            return None
+        curr = head
         
-        def depth(curr,pending):
-            
-            while(curr is not None):
-
-                if(curr.child):
-                    pending.append(curr.next)
-                    if(curr.next is not None):
-                        temp = curr.child
-                        curr.child = None
-                        curr.next = temp
-                        temp.prev = curr
-                        
-                prev = curr
-                curr = curr.next
+        if(curr is None):
+            return curr
         
-            curr = prev
+        while(curr):
             
+            if(curr.child):
+                stack.append(curr.next)
+                curr.next = curr.child
+                curr.next.prev = curr
+                curr.child = None
             
-            while(pending):
-                p = pending.pop()
+            if( not curr.next):
+                p = stack.pop()
+                
                 curr.next = p
-                p.prev = curr
-                dfs(curr,pending)
-        
-        depth(head,[])
-        
-        
-
+                
+                if(p):
+                    p.prev = curr
+            
+            
+            
+            curr = curr.next
         
         return head
-        
         
 
 
